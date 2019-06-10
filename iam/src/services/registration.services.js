@@ -1,15 +1,28 @@
-import * as UserDAO from '../dao/user.dao';
+import * as userDAO from '../dao/user.dao';
+import * as serviceResponse from '../utils/response';
 
-module.exports.registerConsumerMobile = function(event){
-    let payload = JSON.parse(event.body);
-    return UserDAO.createUser(payload);
+export async function registerConsumerMobile(event){
+    let user = JSON.parse(event.body);
+    var result = null;
+    try{
+        let existingUser = await userDAO.findByMobile(user.mobile);
+        if(existingUser){
+            result = serviceResponse.validationError("User already exists");
+        }else{
+            result = await userDAO.createUser(user);
+        }
+    }catch(err){
+        result = serviceResponse.serverError(err, err);
+    }
+
+    return result;
 }
 
-module.exports.registerConsumerConfirm = function(event){
+export async function registerConsumerConfirm(event){
     let payload = JSON.parse(event.body);
     let otp = payload.otp;
     if(otp == '1234'){
-        return UserDAO.validateAndRegister(payload);
+        return userDAO.validateAndRegister(payload);
     }else{
         let error = {"error" : "Invalid OTP"};
         return error;

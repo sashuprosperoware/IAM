@@ -1,19 +1,11 @@
 import * as enrty from './entry';
 import * as TestData from './test/api-events.data';
 
+async function test(){
+    let result = await enrty.handler(TestData.registerConsumerMobile, {});
+    console.log(result);
+}
 
-let registerConsumerMobile = enrty.handler(TestData.registerConsumerMobile, {});
-registerConsumerMobile.then(function(data){
-    console.log(data);
-}).catch(function(err){
-    console.log(err);
-});
-
-let registerConsumerConfirm = enrty.handler(TestData.registerConsumerConfirm, {});
-registerConsumerConfirm.then(function(confirmData){
-    console.log(confirmData);
-}).catch(function(err){
-    console.log(err);
-});
+test();
 
 

@@ -1,12 +1,16 @@
+import {database} from "./base.dao"; 
 
-
-
-module.exports.createUser = function(user){
-    user.id = 1;
-    return user;
+export async function createUser(user){
+    const db = await database();
+    return await db.collection('user').insertOne(user);
 }
 
-module.exports.validateAndRegister = function(user){
+export async function findByMobile(mobile){
+    const db = await database();
+    return await db.collection('user').findOne({"mobile" : mobile});
+}
+
+export function validateAndRegister(user){
     user.id = 2;
     user.mobile_valid = true;
     return user;

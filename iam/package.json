@@ -31,5 +31,8 @@
       "es2015",
       "stage-2"
     ]
+  },
+  "dependencies": {
+    "mongodb": "^3.2.6"
   }
 }
